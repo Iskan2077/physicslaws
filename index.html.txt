@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Физика - Основные законы и формулы</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e5799;
+            --secondary-color: #207cca;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --text-color: #333;
+            --text-light: #777;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: var(--light-color);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .auth-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        nav {
+            background: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav a i {
+            margin-right: 8px;
+        }
+        
+        nav a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        main {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        aside {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-content: start;
+        }
+        
+        .sidebar-widget {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .formula-card {
+            background: #f9f9f9;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 4px 4px 0;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .formula-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .formula-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .formula-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 1rem;
+        }
+        
+        .formula-btn:hover {
+            color: var(--primary-color);
+        }
+        
+        .formula-btn.favorite {
+            color: var(--accent-color);
+        }
+        
+        .physicist-card {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .physicist-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .physicist-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 1.5rem;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .physicist-info {
+            flex: 1;
+        }
+        
+        .physicist-years {
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        .calculator {
+            background: #f0f7ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .calculator h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .calculator input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .calculator button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .calculator button:hover {
+            background: var(--secondary-color);
+        }
+        
+        .calculator-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .experiment-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .experiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .experiment-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .experiment-content {
+            padding: 1.5rem;
+        }
+        
+        .experiment-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .animation-container {
+            width: 100%;
+            height: 200px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .animation-object {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+        }
+        
+        .animation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .animation-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .test-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .test-options {
+            margin-top: 1rem;
+        }
+        
+        .test-option {
+            display: block;
+            margin: 8px 0;
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-option:hover {
+            background: #f0f0f0;
+        }
+        
+        .test-submit {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        
+        .test-submit:hover {
+            background: var(--secondary-color);
+        }
+        
+        .test-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f0f7ff;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .glossary-term {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .glossary-term:hover {
+            background: #f0f0f0;
+        }
+        
+        .glossary-definition {
+            display: none;
+            padding: 1rem;
+            background: white;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .forum-thread {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .thread-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .comment-form button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .comment {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-date {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .model-viewer {
+            width: 100%;
+            height: 300px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+        
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .social-icons {
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem;
+            }
+            
+            .auth-buttons {
+                position: static;
+                margin-top: 1rem;
+                display: flex;
+                justify-content: center;
+            }
+            
+            .content-section, .sidebar-widget {
+                padding: 1rem;
+            }
+            
+            .physicist-card {
+                flex-direction: column;
+            }
+            
+            .physicist-img {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-atom"></i> Основные физические законы</h1>
+        <p>Полный справочник по физике с интерактивными элементами</p>
+        
+        <div class="auth-buttons">
+            <button class="auth-btn" id="login-btn"><i class="fas fa-sign-in-alt"></i> Вход</button>
+            <button class="auth-btn" id="register-btn"><i class="fas fa-user-plus"></i> Регистрация</button>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#mechanics"><i class="fas fa-cogs"></i> Механика</a></li>
+            <li><a href="#thermodynamics"><i class="fas fa-temperature-high"></i> Термодинамика</a></li>
+            <li><a href="#electrodynamics"><i class="fas fa-bolt"></i> Электродинамика</a></li>
+            <li><a href="#optics"><i class="fas fa-lightbulb"></i> Оптика</a></li>
+            <li><a href="#quantum"><i class="fas fa-atom"></i> Квантовая физика</a></li>
+            <li><a href="#physicists"><i class="fas fa-user-tie"></i> Физики</a></li>
+            <li><a href="#experiments"><i class="fas fa-flask"></i> Эксперименты</a></li>
+            <li><a href="#forum"><i class="fas fa-comments"></i> Форум</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <main>
+            <section id="mechanics" class="content-section">
+                <h2><i class="fas fa-cogs"></i> Механика</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-actions">
+                        <button class="formula-btn favorite" title="Добавить в избранное"><i class="fas fa-star"></i></button>
+                        <button class="formula-btn" title="Поделиться"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                    <h3>Второй закон Ньютона</h3>
+                    <p class="formula">F = ma</p>
+                    <p>Сила равна произведению массы тела на его ускорение.</p>
+                    
+                    <div class="calculator">
+                        <h4>Калькулятор силы</h4>
+                        <label for="mass">Масса (кг):</label>
+                        <input type="number" id="mass" placeholder="Введите массу">
+                        
+                        <label for="acceleration">Ускорение (м/с²):</label>
+                        <input type="number" id="acceleration" placeholder="Введите ускорение">
+                        
+                        <button onclick="calculateForce()">Вычислить силу</button>
+                        
+                        <div class="calculator-result" id="force-result"></div>
+                    </div>
+                    
+                    <div class="animation-container">
+                        <div class="animation-object" id="newton-object"></div>
+                    </div>
+                    <div class="animation-controls">
+                        <button class="animation-btn" onclick="startAnimation()"><i class="fas fa-play"></i> Запустить</button>
+                        <button class="animation-btn" onclick="stopAnimation()"><i class="fas fa-stop"></i> Остановить</button>
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-actions">
+                        <button class="formula-btn" title="Добавить в избранное"><i class="far fa-star"></i></button>
+                        <button class="formula-btn" title="Поделиться"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                    <h3>Закон всемирного тяготения</h3>
+                    <p class="formula">F = G(m₁m₂)/r²</p>
+                    <p>Сила гравитационного притяжения между двумя телами прямо пропорциональна произведению их масс и обратно пропорциональна квадрату расстояния между ними.</p>
+                    
+                    <div class="calculator">
+                        <h4>Калькулятор гравитации</h4>
+                        <label for="mass1">Масса 1 (кг):</label>
+                        <input type="number" id="mass1" placeholder="Введите массу">
+                        
+                        <label for="mass2">Масса 2 (кг):</label>
+                        <input type="number" id="mass2" placeholder="Введите массу">
+                        
+                        <label for="distance">Расстояние (м):</label>
+                        <input type="number" id="distance" placeholder="Введите расстояние">
+                        
+                        <button onclick="calculateGravity()">Вычислить силу</button>
+                        
+                        <div class="calculator-result" id="gravity-result"></div>
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-actions">
+                        <button class="formula-btn" title="Добавить в избранное"><i class="far fa-star"></i></button>
+                        <button class="formula-btn" title="Поделиться"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                    <h3>Кинетическая энергия</h3>
+                    <p class="formula">E<sub>k</sub> = mv²/2</p>
+                    <p>Энергия движущегося тела пропорциональна его массе и квадрату скорости.</p>
+                    
+                    <div class="calculator">
+                        <h4>Калькулятор энергии</h4>
+                        <label for="kinetic-mass">Масса (кг):</label>
+                        <input type="number" id="kinetic-mass" placeholder="Введите массу">
+                        
+                        <label for="velocity">Скорость (м/с):</label>
+                        <input type="number" id="velocity" placeholder="Введите скорость">
+                        
+                        <button onclick="calculateKineticEnergy()">Вычислить энергию</button>
+                        
+                        <div class="calculator-result" id="kinetic-result"></div>
+                    </div>
+                </div>
+                
+                <div class="test-question">
+                    <h4>Тест: Основы механики</h4>
+                    <p>1. Что описывает второй закон Ньютона?</p>
+                    <div class="test-options">
+                        <div class="test-option">A. Сохранение энергии</div>
+                        <div class="test-option correct">B. Связь между силой, массой и ускорением</div>
+                        <div class="test-option">C. Гравитационное взаимодействие</div>
+                        <div class="test-option">D. Инерцию тел</div>
+                    </div>
+                    
+                    <p>2. Как изменится сила гравитации, если расстояние между телами увеличится в 2 раза?</p>
+                    <div class="test-options">
+                        <div class="test-option">A. Увеличится в 2 раза</div>
+                        <div class="test-option">B. Уменьшится в 2 раза</div>
+                        <div class="test-option correct">C. Уменьшится в 4 раза</div>
+                        <div class="test-option">D. Не изменится</div>
+                    </div>
+                    
+                    <button class="test-submit" onclick="checkTest()">Проверить ответы</button>
+                    <div class="test-result" id="mechanics-test-result"></div>
+                </div>
+            </section>
+            
+            <section id="thermodynamics" class="content-section">
+                <h2><i class="fas fa-temperature-high"></i> Термодинамика</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-actions">
+                        <button class="formula-btn" title="Добавить в избранное"><i class="far fa-star"></i></button>
+                        <button class="formula-btn" title="Поделиться"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                    <h3>Первое начало термодинамики</h3>
+                    <p class="formula">ΔU = Q - A</p>
+                    <p>Изменение внутренней энергии системы равно количеству полученного тепла минус работа, совершенная системой.</p>
+                    
+                    <div class="calculator">
+                        <h4>Калькулятор термодинамики</h4>
+                        <label for="heat">Тепло (Дж):</label>
+                        <input type="number" id="heat" placeholder="Введите количество тепла">
+                        
+                        <label for="work">Работа (Дж):</label>
+                        <input type="number" id="work" placeholder="Введите работу">
+                        
+                        <button onclick="calculateInternalEnergy()">Вычислить ΔU</button>
+                        
+                        <div class="calculator-result" id="thermo-result"></div>
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-actions">
+                        <button class="formula-btn" title="Добавить в избранное"><i class="far fa-star"></i></button>
+                        <button class="formula-btn" title="Поделиться"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                    <h3>Уравнение состояния идеального газа</h3>
+                    <p class="formula">PV = nRT</p>
+                    <p>Произведение давления на объем газа пропорционально его температуре.</p>
+                    
+                    <div class="calculator">
+                        <h4>Калькулятор газа</h4>
+                        <select id="gas-var">
+                            <option value="pressure">Давление (P)</option>
+                            <option value="volume">Объем (V)</option>
+                            <option value="temperature">Температура (T)</option>
+                        </select>
+                        
+                        <div id="gas-inputs">
+                            <!-- Динамически генерируемые поля ввода -->
+                        </div>
+                        
+                        <button onclick="calculateGas()">Вычислить</button>
+                        
+                        <div class="calculator-result" id="gas-result"></div>
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/4I1N1I9s1xg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </section>
+            
+            <section id="physicists" class="content-section">
+                <h2><i class="fas fa-user-tie"></i> Великие физики</h2>
+                
+                <div class="physicist-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Isaac-Newton-1689.jpg/220px-Isaac-Newton-1689.jpg" alt="Исаак Ньютон" class="physicist-img">
+                    <div class="physicist-info">
+                        <h3>Исаак Ньютон</h3>
+                        <p class="physicist-years">1643-1727</p>
+                        <p>Английский физик, математик, астроном. Сформулировал законы движения и закон всемирного тяготения, заложившие основы классической механики. Разработал дифференциальное и интегральное исчисления, теорию цвета.</p>
+                        <button class="animation-btn" onclick="showPhysicistDetails('newton')">Подробнее</button>
+                    </div>
+                </div>
+                
+                <div class="physicist-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Albert_Einstein_%28Nobel%29.jpg/220px-Albert_Einstein_%28Nobel%29.jpg" alt="Альберт Эйнштейн" class="physicist-img">
+                    <div class="physicist-info">
+                        <h3>Альберт Эйнштейн</h3>
+                        <p class="physicist-years">1879-1955</p>
+                        <p>Немецкий физик-теоретик, создатель теории относительности, лауреат Нобелевской премии по физике 1921 года. Сформулировал закон взаимосвязи массы и энергии (E=mc²). Внес значительный вклад в развитие квантовой теории.</p>
+                        <button class="animation-btn" onclick="showPhysicistDetails('einstein')">Подробнее</button>
+                    </div>
+                </div>
+                
+                <div class="physicist-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Marie_Curie_%281900%29.jpg/220px-Marie_Curie_%281900%29.jpg" alt="Мария Кюри" class="physicist-img">
+                    <div class="physicist-info">
+                        <h3>Мария Склодовская-Кюри</h3>
+                        <p class="physicist-years">1867-1934</p>
+                        <p>Польско-французский ученый-экспериментатор, физик, химик. Первая женщина-лауреат Нобелевской премии и первый дважды нобелевский лауреат в истории. Исследовала радиоактивность, открыла элементы полоний и радий.</p>
+                        <button class="animation-btn" onclick="showPhysicistDetails('curie')">Подробнее</button>
+                    </div>
+                </div>
+                
+                <div id="physicist-details" style="display: none;">
+                    <!-- Динамически загружаемые подробности о физике -->
+                </div>
+            </section>
+            
+            <section id="experiments" class="content-section">
+                <h2><i class="fas fa-flask"></i> Исторические эксперименты</h2>
+                
+                <div class="experiment-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Galileo.arp.300pix.jpg/220px-Galileo.arp.300pix.jpg" class="experiment-img" alt="Эксперимент Галилея">
+                    <div class="experiment-content">
+                        <h3>Опыты Галилея с падающими телами</h3>
+                        <p class="experiment-date">1589-1592</p>
+                        <p>Галилео Галилей опроверг аристотелевское представление о том, что тяжелые тела падают быстрее легких. Согласно легенде, он сбрасывал шары разной массы с Пизанской башни.</p>
+                        <button class="animation-btn" onclick="showExperimentSimulation('galileo')">Симуляция эксперимента</button>
+                    </div>
+                </div>
+                
+                <div class="experiment-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cavendish_Torsion_Balance_Diagram.svg/220px-Cavendish_Torsion_Balance_Diagram.svg.png" class="experiment-img" alt="Эксперимент Кавендиша">
+                    <div class="experiment-content">
+                        <h3>Опыт Кавендиша</h3>
+                        <p class="experiment-date">1797-1798</p>
+                        <p>Генри Кавендиш с помощью крутильных весов измерил гравитационное взаимодействие между свинцовыми шарами, что позволило определить гравитационную постоянную и массу Земли.</p>
+                        <button class="animation-btn" onclick="showExperimentSimulation('cavendish')">Симуляция эксперимента</button>
+                    </div>
+                </div>
+                
+                <div class="model-viewer">
+                    <p>3D-модель эксперимента будет загружена здесь</p>
+                </div>
+            </section>
+            
+            <section id="forum" class="content-section">
+                <h2><i class="fas fa-comments"></i> Форум</h2>
+                
+                <div class="forum-thread">
+                    <h3>Как лучше понять второй закон Ньютона?</h3>
+                    <div class="thread-meta">
+                        <span>Автор: Ученик123</span>
+                        <span>12.05.2023</span>
+                    </div>
+                    <p>У меня возникают сложности с пониманием второго закона Ньютона. Какие есть практические примеры его применения? Может кто-то может объяснить простыми словами?</p>
+                    
+                    <div class="comment">
+                        <div class="comment-author">ФизикПрофи</div>
+                        <div class="comment-date">12.05.2023</div>
+                        <p>Представь, что ты толкаешь пустую тележку и тележку, груженную кирпичами. Чтобы придать одинаковое ускорение груженой тележке, потребуется гораздо больше силы. Это и есть F=ma в действии!</p>
+                    </div>
+                    
+                    <div class="comment-form">
+                        <h4>Добавить комментарий</h4>
+                        <textarea placeholder="Ваш комментарий..."></textarea>
+                        <button>Отправить</button>
+                    </div>
+                </div>
+                
+                <div class="forum-thread">
+                    <h3>Вопрос по термодинамике: адиабатический процесс</h3>
+                    <div class="thread-meta">
+                        <span>Автор: СтудентФиз</span>
+                        <span>10.05.2023</span>
+                    </div>
+                    <p>Не могу разобраться с адиабатическими процессами. Чем они отличаются от изотермических? Какие есть реальные примеры адиабатических процессов?</p>
+                </div>
+            </section>
+        </main>
+        
+        <aside>
+            <div class="sidebar-widget">
+                <h2><i class="fas fa-search"></i> Поиск</h2>
+                <input type="text" placeholder="Поиск формул, физиков..." style="width: 100%; padding: 8px;">
+                <button style="width: 100%; margin-top: 8px; padding: 8px;">Найти</button>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h2><i class="fas fa-star"></i> Избранное</h2>
+                <ul id="favorites-list">
+                    <li>Второй закон Ньютона</li>
+                    <!-- Динамически добавляемые элементы -->
+                </ul>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h2><i class="fas fa-chart-line"></i> Популярные формулы</h2>
+                <ul>
+                    <li>E = mc²</li>
+                    <li>F = ma</li>
+                    <li>PV = nRT</li>
+                    <li>I = U/R</li>
+                    <li>λ = h/p</li>
+                    <li>ΔS ≥ 0</li>
+                    <li>F = -kx</li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h2><i class="fas fa-book"></i> Глоссарий</h2>
+                
+                <div class="glossary-term" onclick="toggleDefinition('force')">
+                    <strong>Сила</strong>
+                </div>
+                <div class="glossary-definition" id="force-def">
+                    В физике - векторная величина, являющаяся мерой воздействия на данное тело со стороны других тел.
+                </div>
+                
+                <div class="glossary-term" onclick="toggleDefinition('energy')">
+                    <strong>Энергия</strong>
+                </div>
+                <div class="glossary-definition" id="energy-def">
+                    Скалярная физическая величина, являющаяся единой мерой различных форм движения материи.
+                </div>
+                
+                <div class="glossary-term" onclick="toggleDefinition('entropy')">
+                    <strong>Энтропия</strong>
+                </div>
+                <div class="glossary-definition" id="entropy-def">
+                    Мера необратимого рассеивания энергии, мера хаоса в термодинамической системе.
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h2><i class="fas fa-question-circle"></i> Вопрос эксперту</h2>
+                <textarea placeholder="Задайте ваш вопрос..." style="width: 100%; height: 100px; margin-bottom: 10px;"></textarea>
+                <button style="width: 100%;">Отправить</button>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h2><i class="fas fa-link"></i> Полезные ресурсы</h2>
+                <ul>
+                    <li><a href="#"><i class="fas fa-calculator"></i> Физические калькуляторы</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Видеоуроки по физике</a></li>
+                    <li><a href="#"><i class="fas fa-tasks"></i> Сборник задач</a></li>
+                    <li><a href="#"><i class="fas fa-book-open"></i> Онлайн-учебники</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">О проекте</a>
+            <a href="#">Контакты</a>
+            <a href="#">Партнерам</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+        
+        <p>© 2023 Физика - Основные законы и формулы. Все права защищены.</p>
+        
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-vk"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+    </footer>
+    
+    <script>
+        // Функции для калькуляторов
+        function calculateForce() {
+            const mass = parseFloat(document.getElementById('mass').value);
+            const acceleration = parseFloat(document.getElementById('acceleration').value);
+            
+            if (!isNaN(mass) && !isNaN(acceleration)) {
+                const force = mass * acceleration;
+                document.getElementById('force-result').innerHTML = `Сила: ${force.toFixed(2)} Н`;
+            } else {
+                document.getElementById('force-result').innerHTML = "Пожалуйста, введите корректные значения";
+            }
+        }
+        
+        function calculateGravity() {
+            const G = 6.67430e-11;
+            const mass1 = parseFloat(document.getElementById('mass1').value);
+            const mass2 = parseFloat(document.getElementById('mass2').value);
+            const distance = parseFloat(document.getElementById('distance').value);
+            
+            if (!isNaN(mass1) && !isNaN(mass2) && !isNaN(distance) && distance !== 0) {
+                const force = G * mass1 * mass2 / (distance * distance);
+                document.getElementById('gravity-result').innerHTML = `Сила притяжения: ${force.toExponential(2)} Н`;
+            } else {
+                document.getElementById('gravity-result').innerHTML = "Пожалуйста, введите корректные значения";
+            }
+        }
+        
+        function calculateKineticEnergy() {
+            const mass = parseFloat(document.getElementById('kinetic-mass').value);
+            const velocity = parseFloat(document.getElementById('velocity').value);
+            
+            if (!isNaN(mass) && !isNaN(velocity)) {
+                const energy = 0.5 * mass * velocity * velocity;
+                document.getElementById('kinetic-result').innerHTML = `Кинетическая энергия: ${energy.toFixed(2)} Дж`;
+            } else {
+                document.getElementById('kinetic-result').innerHTML = "Пожалуйста, введите корректные значения";
+            }
+        }
+        
+        function calculateInternalEnergy() {
+            const heat = parseFloat(document.getElementById('heat').value);
+            const work = parseFloat(document.getElementById('work').value);
+            
+            if (!isNaN(heat) && !isNaN(work)) {
+                const deltaU = heat - work;
+                document.getElementById('thermo-result').innerHTML = `Изменение внутренней энергии: ${deltaU.toFixed(2)} Дж`;
+            } else {
+                document.getElementById('thermo-result').innerHTML = "Пожалуйста, введите корректные значения";
+            }
+        }
+        
+        // Анимация второго закона Ньютона
+        let animationId;
+        let position = 20;
+        const acceleration = 2;
+        
+        function startAnimation() {
+            const object = document.getElementById('newton-object');
+            position = 20;
+            object.style.left = position + 'px';
+            
+            function animate() {
+                position += acceleration;
+                object.style.left = position + 'px';
+                
+                if (position < 300) {
+                    animationId = requestAnimationFrame(animate);
+                }
+            }
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        function stopAnimation() {
+            cancelAnimationFrame(animationId);
+        }
+        
+        // Тест по механике
+        function checkTest() {
+            const resultDiv = document.getElementById('mechanics-test-result');
+            const selected = document.querySelectorAll('.test-option.correct');
+            
+            let score = 0;
+            selected.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    score++;
+                }
+            });
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `Ваш результат: ${score} из 2`;
+            
+            if (score === 2) {
+                resultDiv.style.backgroundColor = '#d4edda';
+                resultDiv.innerHTML += '<p>Отличный результат! Вы хорошо разбираетесь в основах механики.</p>';
+            } else if (score === 1) {
+                resultDiv.style.backgroundColor = '#fff3cd';
+                resultDiv.innerHTML += '<p>Неплохо, но есть над чем поработать. Повторите материалы еще раз.</p>';
+            } else {
+                resultDiv.style.backgroundColor = '#f8d7da';
+                resultDiv.innerHTML += '<p>Рекомендуем изучить тему заново. Обратите внимание на второй закон Ньютона и закон всемирного тяготения.</p>';
+            }
+        }
+        
+        // Добавление обработчиков для вариантов ответов
+        document.querySelectorAll('.test-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Снимаем выделение с других вариантов в этом вопросе
+                const parent = this.parentElement;
+                parent.querySelectorAll('.test-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Выделяем выбранный вариант
+                this.classList.add('selected');
+            });
+        });
+        
+        // Глоссарий
+        function toggleDefinition(id) {
+            const def = document.getElementById(id + '-def');
+            if (def.style.display === 'block') {
+                def.style.display = 'none';
+            } else {
+                def.style.display = 'block';
+            }
+        }
+        
+        // Избранное
+        document.querySelectorAll('.formula-btn.favorite').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('far');
+                this.classList.toggle('fas');
+                
+                // Здесь должна быть логика добавления/удаления из избранного
+                const formulaTitle = this.closest('.formula-card').querySelector('h3').textContent;
+                updateFavoritesList(formulaTitle);
+            });
+        });
+        
+        function updateFavoritesList(formulaTitle) {
+            const favoritesList = document.getElementById('favorites-list');
+            // Простая реализация - в реальном приложении нужно хранить состояние
+            const item = document.createElement('li');
+            item.textContent = formulaTitle;
+            favoritesList.appendChild(item);
+        }
+        
+        // Показ деталей о физике
+        function showPhysicistDetails(physicist) {
+            const detailsDiv = document.getElementById('physicist-details');
+            // В реальном приложении здесь был бы запрос к серверу или более сложная логика
+            let content = '';
+            
+            switch(physicist) {
+                case 'newton':
+                    content = `
+                        <h3>Подробнее об Исааке Ньютоне</h3>
+                        <p>Родился 4 января 1643 года в Вулсторпе, Англия. Основные достижения:</p>
+                        <ul>
+                            <li>Законы движения (1687)</li>
+                            <li>Закон всемирного тяготения</li>
+                            <li>Разработка дифференциального и интегрального исчислений</li>
+                            <li>Теория цвета</li>
+                            <li>Построение зеркального телескопа</li>
+                        </ul>
+                        <p>Умер 31 марта 1727 года в Лондоне. Похоронен в Вестминстерском аббатстве.</p>
+                    `;
+                    break;
+                case 'einstein':
+                    content = `
+                        <h3>Подробнее об Альберте Эйнштейне</h3>
+                        <p>Родился 14 марта 1879 года в Ульме, Германия. Основные достижения:</p>
+                        <ul>
+                            <li>Специальная теория относительности (1905)</li>
+                            <li>Общая теория относительности (1915)</li>
+                            <li>Объяснение фотоэффекта (Нобелевская премия 1921)</li>
+                            <li>Теория броуновского движения</li>
+                            <li>Квантовая теория теплоемкости</li>
+                        </ul>
+                        <p>Умер 18 апреля 1955 года в Принстоне, США.</p>
+                    `;
+                    break;
+                case 'curie':
+                    content = `
+                        <h3>Подробнее о Марии Кюри</h3>
+                        <p>Родилась 7 ноября 1867 года в Варшаве, Польша. Основные достижения:</p>
+                        <ul>
+                            <li>Исследования радиоактивности (Нобелевская премия по физике 1903)</li>
+                            <li>Открытие элементов полоний и радий (Нобелевская премия по химии 1911)</li>
+                            <li>Разработка методов радиоактивных измерений</li>
+                            <li>Создание мобильных рентгеновских установок во время Первой мировой войны</li>
+                        </ul>
+                        <p>Умерла 4 июля 1934 года от апластической анемии, вызванной длительным воздействием радиации.</p>
+                    `;
+                    break;
+            }
+            
+            detailsDiv.innerHTML = content;
+            detailsDiv.style.display = 'block';
+        }
+        
+        // Симуляция экспериментов
+        function showExperimentSimulation(experiment) {
+            const modelViewer = document.querySelector('.model-viewer');
+            // В реальном приложении здесь была бы 3D-модель или сложная анимация
+            switch(experiment) {
+                case 'galileo':
+                    modelViewer.innerHTML = `
+                        <h4>Симуляция опыта Галилея</h4>
+                        <p>Два шара разной массы падают с одинаковым ускорением.</p>
+                        <button onclick="startGalileoExperiment()">Запустить</button>
+                        <div id="galileo-animation" style="height: 200px; position: relative;">
+                            <div style="position: absolute; width: 30px; height: 30px; background: steelblue; border-radius: 50%; left: 50px; top: 20px;" id="ball1"></div>
+                            <div style="position: absolute; width: 50px; height: 50px; background: crimson; border-radius: 50%; left: 120px; top: 20px;" id="ball2"></div>
+                        </div>
+                    `;
+                    break;
+                case 'cavendish':
+                    modelViewer.innerHTML = `
+                        <h4>Симуляция опыта Кавендиша</h4>
+                        <p>Крутильные весы измеряют гравитационное притяжение между шарами.</p>
+                        <button onclick="startCavendishExperiment()">Запустить</button>
+                        <div id="cavendish-animation" style="height: 200px; position: relative;">
+                            <div style="position: absolute; width: 100%; height: 2px; background: #333; top: 100px;"></div>
+                            <div style="position: absolute; width: 20px; height: 100px; background: #333; left: 50%; top: 0;"></div>
+                            <div style="position: absolute; width: 20px; height: 20px; background: steelblue; border-radius: 50%; left: 45%; top: 90px;" id="cav-ball1"></div>
+                            <div style="position: absolute; width: 20px; height: 20px; background: steelblue; border-radius: 50%; left: 55%; top: 90px;" id="cav-ball2"></div>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+        
+        function startGalileoExperiment() {
+            const ball1 = document.getElementById('ball1');
+            const ball2 = document.getElementById('ball2');
+            let pos1 = 20;
+            let pos2 = 20;
+            
+            function fall() {
+                pos1 += 2;
+                pos2 += 2;
+                
+                ball1.style.top = pos1 + 'px';
+                ball2.style.top = pos2 + 'px';
+                
+                if (pos1 < 180) {
+                    requestAnimationFrame(fall);
+                }
+            }
+            
+            fall();
+        }
+        
+        function startCavendishExperiment() {
+            const ball1 = document.getElementById('cav-ball1');
+            const ball2 = document.getElementById('cav-ball2');
+            let angle = 0;
+            let direction = 1;
+            
+            function rotate() {
+                angle += 0.5 * direction;
+                
+                if (Math.abs(angle) > 15) {
+                    direction *= -1;
+                }
+                
+                ball1.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+                ball2.style.transform = `translateX(50%) rotate(${angle}deg)`;
+                
+                requestAnimationFrame(rotate);
+            }
+            
+            rotate();
+        }
+    </script>
+</body>
+</html>
