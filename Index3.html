@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оптическая лаборатория</title>
+    <style>
+        :root {
+            --primary-color: #FFD700;
+            --secondary-color: #FFA500;
+            --dark-color: #333;
+            --light-color: #FFF8DC;
+            --accent-color: #FF6347;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://i.imgur.com/JtQJbZx.png') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-style: italic;
+            margin-top: 0.5rem;
+            color: #555;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--dark-color);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-btn.active {
+            color: white;
+        }
+        
+        .tab-btn.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            z-index: -1;
+            border-radius: 50px;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .scene-container {
+            width: 100%;
+            height: 500px;
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .controls {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+            outline: none;
+            margin: 10px 0;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .value-display {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        
+        .info-panel {
+            background-color: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: url('https://i.imgur.com/JtQJbZx.png') center/contain no-repeat;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .info-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h2 {
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 svg {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .scientist-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .scientist-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1.5rem;
+            border: 4px solid var(--primary-color);
+        }
+        
+        .scientist-info h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+        
+        .scientist-info p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .formula {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .tab-buttons {
+                flex-direction: column;
+                border-radius: 12px;
+            }
+            
+            .tab-btn {
+                border-radius: 0;
+            }
+            
+            .tab-btn.active::before {
+                border-radius: 0;
+            }
+            
+            .scientist-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .scientist-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Оптическая лаборатория</h1>
+            <p class="subtitle">Исследуйте законы геометрической оптики в 3D</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="openTab('reflection')">
+                Отражение света
+            </button>
+            <button class="tab-btn" onclick="openTab('refraction')">
+                Преломление света
+            </button>
+            <button class="tab-btn" onclick="openTab('lenses')">
+                Линзы
+            </button>
+        </div>
+
+        <!-- Закон отражения -->
+        <div id="reflection" class="tab-content active">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12H3"></path>
+                    <path d="M12 2v6"></path>
+                    <path d="M12 16v6"></path>
+                    <path d="M19 9l-7 7-7-7"></path>
+                </svg>
+                Закон отражения света
+            </h2>
+            
+            <div class="scientist-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Euclid.jpg/220px-Euclid.jpg" alt="Евклид" class="scientist-image">
+                <div class="scientist-info">
+                    <h3>Евклид</h3>
+                    <p><strong>Годы жизни:</strong> около 300 г. до н.э.</p>
+                    <p><strong>Вклад:</strong> Первым сформулировал закон отражения света в своей работе "Оптика".</p>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="info-content">
+                    <p><strong>Формулировка закона:</strong> Угол падения равен углу отражения (θ₁ = θ₂).</p>
+                    <p>Падающий луч, отраженный луч и нормаль к поверхности лежат в одной плоскости.</p>
+                    <div class="formula">θ<sub>пад</sub> = θ<sub>отр</sub></div>
+                </div>
+            </div>
+            
+            <div class="scene-container" id="reflection-scene">
+                <!-- 3D сцена будет здесь -->
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Угол падения: <span class="value-display" id="angle-value">30</span>°</label>
+                    <input type="range" id="angle-slider" min="0" max="90" value="30">
+                </div>
+                <p>Угол отражения: <span class="value-display" id="reflection-angle">30</span>°</p>
+            </div>
+        </div>
+
+        <!-- Закон преломления -->
+        <div id="refraction" class="tab-content">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12H3"></path>
+                    <path d="M12 2v6"></path>
+                    <path d="M12 16v6"></path>
+                    <path d="M19 9l-7 7-7-7"></path>
+                    <path d="M5 15l7-7 7 7"></path>
+                </svg>
+                Закон преломления света (Закон Снеллиуса)
+            </h2>
+            
+            <div class="scientist-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Willebrord_Snellius.jpg/220px-Willebrord_Snellius.jpg" alt="Виллеброрд Снеллиус" class="scientist-image">
+                <div class="scientist-info">
+                    <h3>Виллеброрд Снеллиус</h3>
+                    <p><strong>Годы жизни:</strong> 1580–1626</p>
+                    <p><strong>Вклад:</strong> Открыл закон преломления света, хотя сам не публиковал его. Закон был назван в его честь.</p>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="info-content">
+                    <p><strong>Формулировка закона:</strong> n₁·sin(θ₁) = n₂·sin(θ₂), где n - показатели преломления сред.</p>
+                    <p>При переходе в оптически более плотную среду (n₂ > n₁) луч преломляется к нормали.</p>
+                    <div class="formula">n<sub>1</sub> · sin(θ<sub>1</sub>) = n<sub>2</sub> · sin(θ<sub>2</sub>)</div>
+                </div>
+            </div>
+            
+            <div class="scene-container" id="refraction-scene">
+                <!-- 3D сцена будет здесь -->
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Показатель преломления среды 1 (n₁): <span class="value-display" id="n1-value">1.0</span></label>
+                    <input type="range" id="n1-slider" min="1.0" max="1.5" step="0.01" value="1.0">
+                </div>
+                <div class="control-group">
+                    <label>Показатель преломления среды 2 (n₂): <span class="value-display" id="n2-value">1.33</span></label>
+                    <input type="range" id="n2-slider" min="1.0" max="2.0" step="0.01" value="1.33">
+                </div>
+                <div class="control-group">
+                    <label>Угол падения: <span class="value-display" id="incident-angle">30</span>°</label>
+                    <input type="range" id="angle-slider-refraction" min="0" max="90" value="30">
+                </div>
+                <p>Угол преломления: <span class="value-display" id="refraction-angle">22.08</span>°</p>
+                <p id="critical-angle-info">Критический угол: 48.75°</p>
+            </div>
+        </div>
+
+        <!-- Линзы -->
+        <div id="lenses" class="tab-content">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+                    <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+                    <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+                    <line x1="14.83" y1="9.17" x2="18.36" y2="5.64"></line>
+                    <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+                </svg>
+                Формула тонкой линзы
+            </h2>
+            
+            <div class="scientist-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Johannes_Kepler_1610.jpg/220px-Johannes_Kepler_1610.jpg" alt="Иоганн Кеплер" class="scientist-image">
+                <div class="scientist-info">
+                    <h3>Иоганн Кеплер</h3>
+                    <p><strong>Годы жизни:</strong> 1571–1630</p>
+                    <p><strong>Вклад:</strong> Внёс значительный вклад в изучение оптики, включая теорию линз и формирование изображений.</p>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="info-content">
+                    <p><strong>Формулировка:</strong> 1/F = 1/d + 1/f, где F - фокусное расстояние, d - расстояние до объекта, f - расстояние до изображения.</p>
+                    <p>Для собирающих линз F > 0, для рассеивающих F < 0.</p>
+                    <div class="formula">1/F = 1/d + 1/f</div>
+                </div>
+            </div>
+            
+            <div class="scene-container" id="lens-scene">
+                <!-- 3D сцена будет здесь -->
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Фокусное расстояние (F): <span class="value-display" id="focal-value">10</span> см</label>
+                    <input type="range" id="focal-slider" min="-20" max="20" value="10">
+                </div>
+                <div class="control-group">
+                    <label>Расстояние до объекта (d): <span class="value-display" id="object-distance">15</span> см</label>
+                    <input type="range" id="distance-slider" min="1" max="30" value="15">
+                </div>
+                <p>Расстояние до изображения (f): <span class="value-display" id="image-distance">30.00</span> см</p>
+                <p>Увеличение: <span class="value-display" id="magnification">2.00</span>x</p>
+                <p id="image-type">Изображение: действительное, перевернутое</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2023 Оптическая лаборатория | Изучайте физику с удовольствием!
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script>
+        // Глобальные переменные для сцен
+        let reflectionScene, refractionScene, lensScene;
+        let reflectionControls, refractionControls, lensControls;
+        
+        // Инициализация при загрузке страницы
+        window.onload = function() {
+            initReflectionScene();
+            initRefractionScene();
+            initLensScene();
+            setupEventListeners();
+        };
+        
+        // Переключение между вкладками
+        function openTab(tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabButtons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            // Обновляем размеры сцен при переключении вкладок
+            setTimeout(() => {
+                if (tabName === 'reflection' && reflectionScene) {
+                    reflectionScene.renderer.setSize(
+                        document.getElementById('reflection-scene').clientWidth,
+                        document.getElementById('reflection-scene').clientHeight
+                    );
+                    reflectionScene.camera.aspect = document.getElementById('reflection-scene').clientWidth / 
+                                                  document.getElementById('reflection-scene').clientHeight;
+                    reflectionScene.camera.updateProjectionMatrix();
+                } else if (tabName === 'refraction' && refractionScene) {
+                    refractionScene.renderer.setSize(
+                        document.getElementById('refraction-scene').clientWidth,
+                        document.getElementById('refraction-scene').clientHeight
+                    );
+                    refractionScene.camera.aspect = document.getElementById('refraction-scene').clientWidth / 
+                                                  document.getElementById('refraction-scene').clientHeight;
+                    refractionScene.camera.updateProjectionMatrix();
+                } else if (tabName === 'lenses' && lensScene) {
+                    lensScene.renderer.setSize(
+                        document.getElementById('lens-scene').clientWidth,
+                        document.getElementById('lens-scene').clientHeight
+                    );
+                    lensScene.camera.aspect = document.getElementById('lens-scene').clientWidth / 
+                                            document.getElementById('lens-scene').clientHeight;
+                    lensScene.camera.updateProjectionMatrix();
+                }
+            }, 50);
+        }
+        
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Отражение
+            document.getElementById('angle-slider').addEventListener('input', function() {
+                const angle = parseInt(this.value);
+                document.getElementById('angle-value').textContent = angle;
+                document.getElementById('reflection-angle').textContent = angle;
+                
+                if (reflectionScene) {
+                    reflectionScene.mirror.rotation.y = angle * Math.PI / 180;
+                    reflectionScene.incidentRay.rotation.z = -angle * Math.PI / 180;
+                    reflectionScene.reflectedRay.rotation.z = angle * Math.PI / 180;
+                    reflectionScene.incidentRay.position.x = -3 * Math.cos(angle * Math.PI / 180);
+                    reflectionScene.incidentRay.position.y = 3 * Math.sin(angle * Math.PI / 180);
+                    reflectionScene.reflectedRay.position.x = 3 * Math.cos(angle * Math.PI / 180);
+                    reflectionScene.reflectedRay.position.y = 3 * Math.sin(angle * Math.PI / 180);
+                    
+                    // Обновляем угловые метки
+                    reflectionScene.scene.remove(reflectionScene.angleMarker1);
+                    reflectionScene.scene.remove(reflectionScene.angleMarker2);
+                    
+                    reflectionScene.angleMarker1 = createAngleMarker(angle, 0xff6347);
+                    reflectionScene.scene.add(reflectionScene.angleMarker1);
+                    
+                    reflectionScene.angleMarker2 = createAngleMarker(angle, 0x4682B4);
+                    reflectionScene.angleMarker2.rotation.z = Math.PI;
+                    reflectionScene.scene.add(reflectionScene.angleMarker2);
+                }
+            });
+            
+            // Преломление
+            document.getElementById('n1-slider').addEventListener('input', function() {
+                const n1 = parseFloat(this.value);
+                document.getElementById('n1-value').textContent = n1.toFixed(2);
+                updateRefraction();
+            });
+            
+            document.getElementById('n2-slider').addEventListener('input', function() {
+                const n2 = parseFloat(this.value);
+                document.getElementById('n2-value').textContent = n2.toFixed(2);
+                updateRefraction();
+            });
+            
+            document.getElementById('angle-slider-refraction').addEventListener('input', function() {
+                const angle = parseInt(this.value);
+                document.getElementById('incident-angle').textContent = angle;
+                updateRefraction();
+            });
+            
+            // Линзы
+            document.getElementById('focal-slider').addEventListener('input', function() {
+                const focal = parseInt(this.value);
+                document.getElementById('focal-value').textContent = focal;
+                updateLensSystem();
+            });
+            
+            document.getElementById('distance-slider').addEventListener('input', function() {
+                const distance = parseInt(this.value);
+                document.getElementById('object-distance').textContent = distance;
+                updateLensSystem();
+            });
+        }
+        
+        // Инициализация сцены отражения
+        function initReflectionScene() {
+            const container = document.getElementById('reflection-scene');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Создаем сцену, камеру и рендерер
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xF5F5DC);
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Настройка камеры
+            camera.position.set(0, 0, 10);
+            camera.lookAt(0, 0, 0);
+            
+            // Добавляем элементы сцены
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // Зеркало
+            const mirrorGeometry = new THREE.PlaneGeometry(5, 5);
+            const mirrorMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xC0C0C0,
+                metalness: 0.9,
+                roughness: 0.1
+            });
+            const mirror = new THREE.Mesh(mirrorGeometry, mirrorMaterial);
+            mirror.rotation.y = 30 * Math.PI / 180;
+            scene.add(mirror);
+            
+            // Нормаль к поверхности
+            const normalGeometry = new THREE.CylinderGeometry(0.05, 0.05, 3, 16);
+            const normalMaterial = new THREE.MeshBasicMaterial({ color: 0x32CD32 });
+            const normal = new THREE.Mesh(normalGeometry, normalMaterial);
+            normal.rotation.x = Math.PI / 2;
+            scene.add(normal);
+            
+            // Падающий луч
+            const incidentRayGeometry = new THREE.CylinderGeometry(0.1, 0.1, 6, 16);
+            const incidentRayMaterial = new THREE.MeshBasicMaterial({ color: 0xFF6347 });
+            const incidentRay = new THREE.Mesh(incidentRayGeometry, incidentRayMaterial);
+            incidentRay.rotation.z = -30 * Math.PI / 180;
+            incidentRay.position.x = -3 * Math.cos(30 * Math.PI / 180);
+            incidentRay.position.y = 3 * Math.sin(30 * Math.PI / 180);
+            scene.add(incidentRay);
+            
+            // Отраженный луч
+            const reflectedRayGeometry = new THREE.CylinderGeometry(0.1, 0.1, 6, 16);
+            const reflectedRayMaterial = new THREE.MeshBasicMaterial({ color: 0x4682B4 });
+            const reflectedRay = new THREE.Mesh(reflectedRayGeometry, reflectedRayMaterial);
+            reflectedRay.rotation.z = 30 * Math.PI / 180;
+            reflectedRay.position.x = 3 * Math.cos(30 * Math.PI / 180);
+            reflectedRay.position.y = 3 * Math.sin(30 * Math.PI / 180);
+            scene.add(reflectedRay);
+            
+            // Угловые метки
+            const angleMarker1 = createAngleMarker(30, 0xFF6347);
+            scene.add(angleMarker1);
+            
+            const angleMarker2 = createAngleMarker(30, 0x4682B4);
+            angleMarker2.rotation.z = Math.PI;
+            scene.add(angleMarker2);
+            
+            // Сохраняем ссылки на объекты для последующего обновления
+            reflectionScene = {
+                scene, camera, renderer, 
+                mirror, normal, incidentRay, reflectedRay,
+                angleMarker1, angleMarker2
+            };
+            
+            // Добавляем управление камерой
+            reflectionControls = new THREE.OrbitControls(camera, renderer.domElement);
+            reflectionControls.enableDamping = true;
+            reflectionControls.dampingFactor = 0.05;
+            
+            // Анимация
+            function animate() {
+                requestAnimationFrame(animate);
+                reflectionControls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // Обработка изменения размера окна
+            window.addEventListener('resize', function() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            });
+        }
+        
+        // Создание угловой метки
+        function createAngleMarker(angle, color) {
+            const points = [];
+            points.push(new THREE.Vector3(0, 0, 0));
+            
+            const radius = 1.5;
+            const segments = 32;
+            for (let i = 0; i <= segments; i++) {
+                const theta = (i / segments) * angle * Math.PI / 180;
+                points.push(new THREE.Vector3(
+                    radius * Math.cos(theta),
+                    radius * Math.sin(theta),
+                    0
+                ));
+            }
+            
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: color, linewidth: 2 });
+            const angleMarker = new THREE.Line(geometry, material);
+            angleMarker.position.set(0, 0, 0.1);
+            
+            return angleMarker;
+        }
+        
+        // Инициализация сцены преломления
+        function initRefractionScene() {
+            const container = document.getElementById('refraction-scene');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Создаем сцену, камеру и рендерер
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xF5F5DC);
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Настройка камеры
+            camera.position.set(0, 5, 10);
+            camera.lookAt(0, 0, 0);
+            
+            // Добавляем элементы сцены
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // Граница сред
+            const boundaryGeometry = new THREE.PlaneGeometry(10, 10);
+            const boundaryMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x6495ED,
+                transparent: true,
+                opacity: 0.3,
+                side: THREE.DoubleSide
+            });
+            const boundary = new THREE.Mesh(boundaryGeometry, boundaryMaterial);
+            boundary.rotation.x = -Math.PI / 2;
+            boundary.position.y = 0;
+            scene.add(boundary);
+            
+            // Среда 1 (воздух)
+            const airGeometry = new THREE.BoxGeometry(10, 5, 10);
+            const airMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xF0F8FF,
+                transparent: true,
+                opacity: 0.2,
+                side: THREE.DoubleSide
+            });
+            const air = new THREE.Mesh(airGeometry, airMaterial);
+            air.position.y = 2.5;
+            scene.add(air);
+            
+            // Среда 2 (вода)
+            const waterGeometry = new THREE.BoxGeometry(10, 5, 10);
+            const waterMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x6495ED,
+                transparent: true,
+                opacity: 0.2,
+                side: THREE.DoubleSide
+            });
+            const water = new THREE.Mesh(waterGeometry, waterMaterial);
+            water.position.y = -2.5;
+            scene.add(water);
+            
+            // Падающий луч
+            const incidentRayGeometry = new THREE.CylinderGeometry(0.1, 0.1, 8, 16);
+            const incidentRayMaterial = new THREE.MeshBasicMaterial({ color: 0xFF6347 });
+            const incidentRay = new THREE.Mesh(incidentRayGeometry, incidentRayMaterial);
+            incidentRay.rotation.z = -30 * Math.PI / 180;
+            incidentRay.position.x = -4 * Math.cos(30 * Math.PI / 180);
+            incidentRay.position.y = 4 * Math.sin(30 * Math.PI / 180);
+            scene.add(incidentRay);
+            
+            // Преломленный луч
+            const refractedRayGeometry = new THREE.CylinderGeometry(0.1, 0.1, 8, 16);
+            const refractedRayMaterial = new THREE.MeshBasicMaterial({ color: 0x32CD32 });
+            const refractedRay = new THREE.Mesh(refractedRayGeometry, refractedRayMaterial);
+            
+            // Рассчитываем начальный угол преломления по закону Снеллиуса
+            const n1 = 1.0;
+            const n2 = 1.33;
+            const incidentAngle = 30;
+            const refractionAngle = Math.asin(n1 * Math.sin(incidentAngle * Math.PI / 180) / n2) * 180 / Math.PI;
+            
+            refractedRay.rotation.z = refractionAngle * Math.PI / 180;
+            refractedRay.position.x = 4 * Math.cos(refractionAngle * Math.PI / 180);
+            refractedRay.position.y = -4 * Math.sin(refractionAngle * Math.PI / 180);
+            scene.add(refractedRay);
+            
+            // Нормаль
+            const normalGeometry = new THREE.CylinderGeometry(0.05, 0.05, 6, 16);
+            const normalMaterial = new THREE.MeshBasicMaterial({ color: 0x32CD32 });
+            const normal = new THREE.Mesh(normalGeometry, normalMaterial);
+            normal.rotation.x = Math.PI / 2;
+            scene.add(normal);
+            
+            // Угловые метки
+            const incidentAngleMarker = createAngleMarker(30, 0xFF6347);
+            incidentAngleMarker.position.y = 0.1;
+            scene.add(incidentAngleMarker);
+            
+            const refractionAngleMarker = createAngleMarker(refractionAngle, 0x32CD32);
+            refractionAngleMarker.rotation.z = Math.PI;
+            refractionAngleMarker.position.y = -0.1;
+            scene.add(refractionAngleMarker);
+            
+            // Сохраняем ссылки на объекты для последующего обновления
+            refractionScene = {
+                scene, camera, renderer, 
+                incidentRay, refractedRay, normal,
+                incidentAngleMarker, refractionAngleMarker,
+                boundary, air, water,
+                reflectedRay: null
+            };
+            
+            // Добавляем управление камерой
+            refractionControls = new THREE.OrbitControls(camera, renderer.domElement);
+            refractionControls.enableDamping = true;
+            refractionControls.dampingFactor = 0.05;
+            
+            // Анимация
+            function animate() {
+                requestAnimationFrame(animate);
+                refractionControls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // Обработка изменения размера окна
+            window.addEventListener('resize', function() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            });
+            
+            // Первоначальное обновление
+            updateRefraction();
+        }
+        
+        // Обновление сцены преломления при изменении параметров
+        function updateRefraction() {
+            if (!refractionScene) return;
+            
+            const n1 = parseFloat(document.getElementById('n1-slider').value);
+            const n2 = parseFloat(document.getElementById('n2-slider').value);
+            const incidentAngle = parseInt(document.getElementById('angle-slider-refraction').value);
+            
+            // Рассчитываем угол преломления по закону Снеллиуса
+            let refractionAngle;
+            const sinRefraction = n1 * Math.sin(incidentAngle * Math.PI / 180) / n2;
+            
+            if (Math.abs(sinRefraction) > 1) {
+                // Полное внутреннее отражение
+                refractionAngle = null;
+                document.getElementById('refraction-angle').textContent = "нет (полное отражение)";
+                
+                // Скрываем преломленный луч
+                refractionScene.refractedRay.visible = false;
+                
+                // Показываем отраженный луч (если еще не создан)
+                if (!refractionScene.reflectedRay) {
+                    const reflectedRayGeometry = new THREE.CylinderGeometry(0.1, 0.1, 8, 16);
+                    const reflectedRayMaterial = new THREE.MeshBasicMaterial({ color: 0x4682B4 });
+                    const reflectedRay = new THREE.Mesh(reflectedRayGeometry, reflectedRayMaterial);
+                    reflectedRay.rotation.z = incidentAngle * Math.PI / 180;
+                    reflectedRay.position.x = 4 * Math.cos(incidentAngle * Math.PI / 180);
+                    reflectedRay.position.y = 4 * Math.sin(incidentAngle * Math.PI / 180);
+                    refractionScene.scene.add(reflectedRay);
+                    refractionScene.reflectedRay = reflectedRay;
+                } else {
+                    refractionScene.reflectedRay.rotation.z = incidentAngle * Math.PI / 180;
+                    refractionScene.reflectedRay.position.x = 4 * Math.cos(incidentAngle * Math.PI / 180);
+                    refractionScene.reflectedRay.position.y = 4 * Math.sin(incidentAngle * Math.PI / 180);
+                    refractionScene.reflectedRay.visible = true;
+                }
+            } else {
+                refractionAngle = Math.asin(sinRefraction) * 180 / Math.PI;
+                document.getElementById('refraction-angle').textContent = refractionAngle.toFixed(2);
+                
+                // Обновляем преломленный луч
+                refractionScene.refractedRay.rotation.z = refractionAngle * Math.PI / 180;
+                refractionScene.refractedRay.position.x = 4 * Math.cos(refractionAngle * Math.PI / 180);
+                refractionScene.refractedRay.position.y = -4 * Math.sin(refractionAngle * Math.PI / 180);
+                refractionScene.refractedRay.visible = true;
+                
+                // Скрываем отраженный луч (если есть)
+                if (refractionScene.reflectedRay) {
+                    refractionScene.reflectedRay.visible = false;
+                }
+            }
+            
+            // Обновляем падающий луч
+            refractionScene.incidentRay.rotation.z = -incidentAngle * Math.PI / 180;
+            refractionScene.incidentRay.position.x = -4 * Math.cos(incidentAngle * Math.PI / 180);
+            refractionScene.incidentRay.position.y = 4 * Math.sin(incidentAngle * Math.PI / 180);
+            
+            // Обновляем угловые метки
+            refractionScene.scene.remove(refractionScene.incidentAngleMarker);
+            refractionScene.scene.remove(refractionScene.refractionAngleMarker);
+            
+            const newIncidentMarker = createAngleMarker(incidentAngle, 0xFF6347);
+            newIncidentMarker.position.y = 0.1;
+            refractionScene.scene.add(newIncidentMarker);
+            refractionScene.incidentAngleMarker = newIncidentMarker;
+            
+            if (refractionAngle !== null) {
+                const newRefractionMarker = createAngleMarker(refractionAngle, 0x32CD32);
+                newRefractionMarker.rotation.z = Math.PI;
+                newRefractionMarker.position.y = -0.1;
+                refractionScene.scene.add(newRefractionMarker);
+                refractionScene.refractionAngleMarker = newRefractionMarker;
+            }
+            
+            // Обновляем информацию о критическом угле
+            if (n2 > n1) {
+                const criticalAngle = Math.asin(n1 / n2) * 180 / Math.PI;
+                document.getElementById('critical-angle-info').textContent = 
+                    `Критический угол: ${criticalAngle.toFixed(2)}°`;
+            } else {
+                document.getElementById('critical-angle-info').textContent = 
+                    "Критический угол: не существует (n₂ ≤ n₁)";
+            }
+            
+            // Обновляем цвет среды в зависимости от показателя преломления
+            const airColor = new THREE.Color(0xF0F8FF).lerp(
+                new THREE.Color(0xADD8E6),
+                (n1 - 1.0) / 0.5
+            );
+            refractionScene.air.material.color = airColor;
+            
+            const waterColor = new THREE.Color(0x6495ED).lerp(
+                new THREE.Color(0x00008B),
+                (n2 - 1.33) / 0.67
+            );
+            refractionScene.water.material.color = waterColor;
+            refractionScene.boundary.material.color = waterColor;
+        }
+        
+        // Инициализация сцены с линзами
+        function initLensScene() {
+            const container = document.getElementById('lens-scene');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            // Создаем сцену, камеру и рендерер
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xF5F5DC);
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            
+            // Настройка камеры
+            camera.position.set(0, 0, 20);
+            camera.lookAt(0, 0, 0);
+            
+            // Добавляем элементы сцены
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // Линза (собирающая)
+            const lensGeometry = createLensGeometry(10, 3, 0.5);
+            const lensMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x87CEFA,
+                transparent: true,
+                opacity: 0.7,
+                refractionRatio: 0.95
+            });
+            const lens = new THREE.Mesh(lensGeometry, lensMaterial);
+            lens.position.z = 0;
+            scene.add(lens);
+            
+            // Объект (стрелка)
+            const arrowShape = new THREE.Shape();
+            arrowShape.moveTo(0, 0);
+            arrowShape.lineTo(-0.5, 1);
+            arrowShape.lineTo(0.5, 1);
+            arrowShape.lineTo(0, 0);
+            
+            const arrowGeometry = new THREE.ExtrudeGeometry(arrowShape, {
+                depth: 0.2,
+                bevelEnabled: false
+            });
+            const arrowMaterial = new THREE.MeshPhongMaterial({ color: 0xFF6347 });
+            const object = new THREE.Mesh(arrowGeometry, arrowMaterial);
+            object.position.set(-15, 1, 0);
+            scene.add(object);
+            
+            // Изображение (изначально невидимо)
+            const image = object.clone();
+            image.material = new THREE.MeshPhongMaterial({ 
+                color: 0xFF6347,
+                transparent: true,
+                opacity: 0.6
+            });
+            image.visible = false;
+            scene.add(image);
+            
+            // Оптическая ось
+            const axisGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-20, 0, 0),
+                new THREE.Vector3(20, 0, 0)
+            ]);
+            const axisMaterial = new THREE.LineBasicMaterial({ color: 0x333333 });
+            const opticalAxis = new THREE.Line(axisGeometry, axisMaterial);
+            scene.add(opticalAxis);
+            
+            // Фокусы
+            const focalGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+            const focalMaterial = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+            const leftFocal = new THREE.Mesh(focalGeometry, focalMaterial);
+            leftFocal.position.set(-10, 0, 0);
+            scene.add(leftFocal);
+            
+            const rightFocal = new THREE.Mesh(focalGeometry, focalMaterial);
+            rightFocal.position.set(10, 0, 0);
+            scene.add(rightFocal);
+            
+            // Лучи
+            const rayMaterial = new THREE.LineBasicMaterial({ color: 0x333333 });
+            
+            // 1. Параллельный оптической оси
+            const ray1Geometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-15, 1, 0),
+                new THREE.Vector3(0, 1, 0),
+                new THREE.Vector3(5, 0, 0)
+            ]);
+            const ray1 = new THREE.Line(ray1Geometry, rayMaterial);
+            scene.add(ray1);
+            
+            // 2. Через левый фокус
+            const ray2Geometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-15, 1, 0),
+                new THREE.Vector3(-10, 0, 0),
+                new THREE.Vector3(0, -2, 0)
+            ]);
+            const ray2 = new THREE.Line(ray2Geometry, rayMaterial);
+            scene.add(ray2);
+            
+            // 3. Через оптический центр
+            const ray3Geometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-15, 1, 0),
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(15, -1, 0)
+            ]);
+            const ray3 = new THREE.Line(ray3Geometry, rayMaterial);
+            scene.add(ray3);
+            
+            // Сохраняем ссылки на объекты для последующего обновления
+            lensScene = {
+                scene, camera, renderer,
+                lens, object, image,
+                leftFocal, rightFocal,
+                ray1, ray2, ray3
+            };
+            
+            // Добавляем управление камерой
+            lensControls = new THREE.OrbitControls(camera, renderer.domElement);
+            lensControls.enableDamping = true;
+            lensControls.dampingFactor = 0.05;
+            
+            // Анимация
+            function animate() {
+                requestAnimationFrame(animate);
+                lensControls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // Обработка изменения размера окна
+            window.addEventListener('resize', function() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            });
+            
+            // Первоначальное обновление
+            updateLensSystem();
+        }
+        
+        // Создание геометрии линзы
+        function createLensGeometry(radius, thickness, curvature) {
+            const shape = new THREE.Shape();
+            const segments = 32;
+            
+            // Верхняя часть линзы
+            for (let i = 0; i <= segments; i++) {
+                const theta = (i / segments) * Math.PI;
+                const x = radius * Math.cos(theta);
+                const y = radius * Math.sin(theta) * curvature + thickness/2;
+                
+                if (i === 0) {
+                    shape.moveTo(x, y);
+                } else {
+                    shape.lineTo(x, y);
+                }
+            }
+            
+            // Нижняя часть линзы
+            for (let i = segments; i >= 0; i--) {
+                const theta = (i / segments) * Math.PI;
+                const x = radius * Math.cos(theta);
+                const y = radius * Math.sin(theta) * curvature - thickness/2;
+                
+                shape.lineTo(x, y);
+            }
+            
+            const extrudeSettings = {
+                steps: 1,
+                depth: 0.5,
+                bevelEnabled: false
+            };
+            
+            return new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        }
+        
+        // Обновление системы линз
+        function updateLensSystem() {
+            if (!lensScene) return;
+            
+            const focalLength = parseInt(document.getElementById('focal-slider').value);
+            const objectDistance = parseInt(document.getElementById('distance-slider').value);
+            
+            // Рассчитываем положение изображения по формуле линзы
+            let imageDistance;
+            if (focalLength === 0) {
+                imageDistance = Infinity;
+            } else {
+                imageDistance = 1 / (1/focalLength - 1/objectDistance);
+            }
+            
+            // Рассчитываем увеличение
+            const magnification = Math.abs(imageDistance / objectDistance);
+            
+            // Обновляем данные в интерфейсе
+            document.getElementById('image-distance').textContent = 
+                Math.abs(imageDistance) === Infinity ? "∞" : imageDistance.toFixed(2);
+            document.getElementById('magnification').textContent = magnification.toFixed(2);
+            
+            // Определяем тип изображения
+            let imageType = "";
+            if (focalLength > 0) { // Собирающая линза
+                if (objectDistance > focalLength) {
+                    imageType = "действительное, перевернутое";
+                } else if (objectDistance < focalLength) {
+                    imageType = "мнимое, прямое";
+                } else {
+                    imageType = "в бесконечности";
+                }
+            } else { // Рассеивающая линза
+                imageType = "мнимое, прямое";
+            }
+            document.getElementById('image-type').textContent = `Изображение: ${imageType}`;
+            
+            // Обновляем положение объекта
+            lensScene.object.position.x = -objectDistance;
+            
+            // Обновляем положение фокусов
+            lensScene.leftFocal.position.x = -Math.abs(focalLength);
+            lensScene.rightFocal.position.x = Math.abs(focalLength);
+            
+            // Обновляем линзу (меняем форму для рассеивающих)
+            lensScene.scene.remove(lensScene.lens);
+            
+            const lensGeometry = createLensGeometry(
+                10, 
+                3, 
+                focalLength > 0 ? 0.5 : -0.3
+            );
+            
+            lensScene.lens = new THREE.Mesh(
+                lensGeometry, 
+                lensScene.lens.material
+            );
+            lensScene.lens.position.z = 0;
+            lensScene.scene.add(lensScene.lens);
+            
+            // Обновляем лучи и изображение
+            const yObject = lensScene.object.position.y;
+            
+            if (focalLength > 0) { // Собирающая линза
+                if (objectDistance > focalLength) {
+                    // Действительное изображение
+                    lensScene.image.visible = true;
+                    lensScene.image.position.x = imageDistance;
+                    lensScene.image.position.y = yObject * magnification * -1;
+                    lensScene.image.scale.set(1, magnification, 1);
+                    lensScene.image.rotation.y = Math.PI;
+                    
+                    // Обновляем лучи
+                    // 1. Параллельный оптической оси
+                    lensScene.ray1.geometry.dispose();
+                    lensScene.ray1.geometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(-objectDistance, yObject, 0),
+                        new THREE.Vector3(0, yObject, 0),
+                        new THREE.Vector3(imageDistance, 0, 0)
+                    ]);
+                    
+                    // 2. Через левый фокус
+                    lensScene.ray2.geometry.dispose();
+                    lensScene.ray2.geometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(-objectDistance, yObject, 0),
+                        new THREE.Vector3(-focalLength, 0, 0),
+                        new THREE.Vector3(imageDistance, yObject * magnification * -1, 0)
+                    ]);
+                    
+                    // 3. Через оптический центр
+                    lensScene.ray3.geometry.dispose();
+                    lensScene.ray3.geometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(-objectDistance, yObject, 0),
+                        new THREE.Vector3(0, 0, 0),
+                        new THREE.Vector3(imageDistance, yObject * magnification * -1, 0)
+                    ]);
+                } else {
+                    // Мнимое изображение
+                    const virtualImageDistance = imageDistance;
+                    const virtualMagnification = magnification;
+                    
+                    lensScene.image.visible = true;
+                    lensScene.image.position.x = virtualImageDistance;
+                    lensScene.image.position.y = yObject * virtualMagnification;
+                    lensScene.image.scale.set(1, virtualMagnification, 1);
+                    lensScene.image.rotation.y = 0;
+                    
+                    // Обновляем лучи
+                    // 1. Параллельный оптической оси
+                    lensScene.ray1.geometry.dispose();
+                    lensScene.ray1.geometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(-objectDistance, yObject, 0),
+                        new THREE.Vector3(0, yObject, 0),
+                        new THREE.Vector3(5, yObject + 5 * Math.tan(Math.asin(yObject/focalLength)), 0)
+                    ]);
+                    
+                    // 2. Через левый фокус
+                    lensScene.ray2.geometry.dispose();
+                    lensScene.ray2.geometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(-objectDistance, yObject, 0),
+                        new THREE.Vector3(-focalLength, 0, 0),
+                        new THREE.Vector3(virtualImageDistance, yObject * virtualMagnification, 0)
+                    ]);
+                    
+                    // 3. Через оптический центр
+                    lensScene.ray3.geometry.dispose();
+                    lensScene.ray3.geometry = new THREE.BufferGeometry().setFromPoints([
+                        new THREE.Vector3(-objectDistance, yObject, 0),
+                        new THREE.Vector3(0, 0, 0)
+                    ]);
+                }
+            } else { // Рассеивающая линза
+                const virtualImageDistance = imageDistance;
+                const virtualMagnification = magnification;
+                
+                lensScene.image.visible = true;
+                lensScene.image.position.x = virtualImageDistance;
+                lensScene.image.position.y = yObject * virtualMagnification;
+                lensScene.image.scale.set(1, virtualMagnification, 1);
+                lensScene.image.rotation.y = 0;
+                
+                // Обновляем лучи
+                // 1. Параллельный оптической оси
+                lensScene.ray1.geometry.dispose();
+                lensScene.ray1.geometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(-objectDistance, yObject, 0),
+                    new THREE.Vector3(0, yObject, 0),
+                    new THREE.Vector3(5, yObject - 5 * Math.tan(Math.asin(yObject/Math.abs(focalLength))), 0)
+                ]);
+                
+                // 2. Направленный на правый фокус
+                lensScene.ray2.geometry.dispose();
+                lensScene.ray2.geometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(-objectDistance, yObject, 0),
+                    new THREE.Vector3(Math.abs(focalLength), 0, 0),
+                    new THREE.Vector3(virtualImageDistance, yObject * virtualMagnification, 0)
+                ]);
+                
+                // 3. Через оптический центр
+                lensScene.ray3.geometry.dispose();
+                lensScene.ray3.geometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(-objectDistance, yObject, 0),
+                    new THREE.Vector3(0, 0, 0)
+                ]);
+            }
+        }
+    </script>
+</body>
+</html>
